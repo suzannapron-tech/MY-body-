@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Body Parts: Online Exercises (A0-A1)</title>
+<style>
+:root{--bg:#f3f7ee;--card:#fff;--ink:#1d2b3a;--mut:#5b6b7a;--line:#d5e0cc;--acc:#2f7d57;--accInk:#fff;--ok:#1f8f4e;--okBg:#dff3e5;--bad:#c23b3b;--badBg:#fbe3e3;--chip:#eaf3e2;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#152019;--card:#1e2b23;--ink:#e8f0e8;--mut:#9fb2a5;--line:#34493b;--acc:#5fc08c;--accInk:#10261a;--ok:#6fd49a;--okBg:#1d4230;--bad:#ff8a8a;--badBg:#4a2424;--chip:#2a3b30;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#152019;--card:#1e2b23;--ink:#e8f0e8;--mut:#9fb2a5;--line:#34493b;--acc:#5fc08c;--accInk:#10261a;--ok:#6fd49a;--okBg:#1d4230;--bad:#ff8a8a;--badBg:#4a2424;--chip:#2a3b30;color-scheme:dark}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.5 "Trebuchet MS","Segoe UI",system-ui,sans-serif}
+main{max-width:760px;margin:0 auto;padding:20px 16px 60px}
+h1{font-size:2rem;margin:.2em 0 .1em}
+.sub{color:var(--mut);margin:0 0 14px}
+.bank{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 22px}
+.bank span{background:var(--chip);border-radius:999px;padding:3px 12px;font-size:.95rem}
+section{background:var(--card);border:2px solid var(--line);border-radius:18px;padding:16px 16px 18px;margin:0 0 22px}
+h2{font-size:1.2rem;margin:0 0 2px}
+.hint{color:var(--mut);margin:0 0 12px;font-size:.95rem}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
+.it{display:flex;align-items:center;gap:10px;border:2px solid var(--line);border-radius:12px;padding:8px 10px;flex-wrap:wrap}
+.list .it{margin-bottom:8px}
+.pic{font-size:2.4rem;line-height:1;min-width:2.6rem;text-align:center}
+.grid .it{flex-direction:column;text-align:center}
+.q{flex:1;min-width:140px}
+select,input{font:inherit;color:var(--ink);background:var(--card);border:2px solid var(--line);border-radius:10px;padding:6px 8px;min-width:110px;max-width:100%}
+input{width:140px}
+.it.ok{border-color:var(--ok);background:var(--okBg)}
+.it.bad{border-color:var(--bad);background:var(--badBg)}
+.fix{display:block;font-size:.85rem;color:var(--bad);width:100%}
+.bar{display:flex;align-items:center;gap:10px;margin-top:10px;flex-wrap:wrap}
+button{font:inherit;font-weight:700;border:0;border-radius:999px;padding:8px 18px;cursor:pointer;background:var(--acc);color:var(--accInk)}
+button.alt{background:var(--chip);color:var(--ink)}
+button:focus-visible,select:focus-visible,input:focus-visible{outline:3px solid var(--acc);outline-offset:2px}
+.score{font-weight:700}
+.tip{background:var(--chip);border-radius:12px;padding:8px 12px;margin-top:10px;font-size:.95rem}
+.say{font-size:1.1rem}
+</style>
+</head>
+<body>
+<main>
+<h1>Body parts 🧒</h1>
+<p class="sub">Do the exercises, then press <b>Check</b>.</p>
+<div class="bank" id="bank"></div>
+<div id="ex"></div>
+</main>
+<script>
+var W=["nose","face","hair","head","ear","eyes","mouth","neck","arm","hand","fingers","leg","foot","toes","tooth"];
+var SP=["S","P"];
+var E=[
+{t:"Exercise 1. Match the picture to the word",h:"Choose the correct word for each picture.",grid:1,items:[
+["🧒","head","W"],["👃","nose","W"],["👀","eyes","W"],["👂","ear","W"],["👄","mouth","W"],["💇","hair","W"],["🙂","face","W"],["🦵","leg","W"],["✋","hand","W"],["💪","arm","W"],["🦶","foot","W"],["🦷","tooth","W"]]},
+{t:"Exercise 2. Singular or plural?",h:"S = one. P = more than one.",items:[
+["🦵","leg","S","S"],["🦶🦶","feet","P","S"],["🖐️","fingers","P","S"],["🦷","tooth","S","S"],["🦷🦷","teeth","P","S"],["✋","hand","S","S"]],opts:SP},
+{t:"Exercise 3. Make the plural",h:"Type the plural form.",tip:"Most words add -s (finger → fingers). Two words change: foot → feet, tooth → teeth.",items:[
+["☝️☝️","one finger → two ...","fingers"],["🦵🦵","one leg → two ...","legs"],["🦶🦶","one foot → two ...","feet"],["🦷🦷","one tooth → two ...","teeth"],["✋✋","one hand → two ...","hands"],["👂👂","one ear → two ...","ears"]]},
+{t:"Exercise 4. Fill in the gaps",h:"Use: eyes, nose, mouth, hair, hands, feet.",items:[
+["👀","I see with my ...","eyes"],["👃","I smell with my ...","nose"],["👄","I eat with my ...","mouth"],["🧼","I wash my ... before lunch.","hands"],["👟","I wear shoes on my ...","feet"],["👩‍🦰","She has long brown ...","hair"]],opts:["eyes","nose","mouth","hair","hands","feet"]},
+{t:"Exercise 5. Choose the correct word",h:"Pick the right answer.",items:[
+["🦶🦶","I have two ...","feet",["foot","feet"]],["🖐️🖐️","I have ten ...","fingers",["finger","fingers"]],["🪥","I brush my ... every day.","teeth",["tooth","teeth"]],["👃","He has one ...","nose",["nose","noses"]],["🦵🦵","She has two ...","legs",["leg","legs"]]]},
+{t:"Exercise 6. Unscramble the words",h:"Write the body part.",items:[
+["🧒","daeh","head"],["🧣","kecn","neck"],["🦶","soet","toes"],["🙂","cafe","face"],["💪","rma","arm"]]}
+];
+var bank=document.getElementById("bank");
+W.forEach(function(w){var s=document.createElement("span");s.textContent=w;bank.appendChild(s)});
+var root=document.getElementById("ex");
+function mk(tag,cls,txt){var e=document.createElement(tag);if(cls)e.className=cls;if(txt!==undefined)e.textContent=txt;return e}
+function ctl(ex,it,i){
+ var a=it[2],opts=null;
+ if(ex.items[0][2]==="W"&&it[2]==="W"){}
+ if(it[2]==="W"){a=it[1];opts=W}
+ else if(ex.opts)opts=ex.opts;
+ else if(Array.isArray(it[3])&&it[3].length>2||Array.isArray(it[3]))opts=it[3];
+ var c;
+ if(opts){c=mk("select");var o=mk("option","","…");o.value="";c.appendChild(o);
+  opts.forEach(function(v){var p=mk("option","",v);p.value=v;c.appendChild(p)})}
+ else{c=mk("input");c.type="text";c.autocomplete="off";c.autocapitalize="off";c.spellcheck=false}
+ c.setAttribute("aria-label","answer "+(i+1));
+ return {c:c,a:a};
+}
+E.forEach(function(ex){
+ var s=mk("section");
+ s.appendChild(mk("h2","",ex.t));s.appendChild(mk("p","hint",ex.h));
+ var box=mk("div",ex.grid?"grid":"list"),rows=[];
+ ex.items.forEach(function(it,i){
+  var r=mk("div","it");r.appendChild(mk("span","pic",it[0]));
+  var k=ctl(ex,it,i);
+  if(!ex.grid){var q=mk("span","q",it[1]);r.appendChild(q)}
+  r.appendChild(k.c);box.appendChild(r);rows.push({r:r,c:k.c,a:k.a});
+ });
+ s.appendChild(box);
+ if(ex.tip)s.appendChild(mk("div","tip","💡 "+ex.tip));
+ var bar=mk("div","bar"),chk=mk("button","","Check"),rs=mk("button","alt","Try again"),sc=mk("span","score");
+ chk.onclick=function(){
+  var n=0;
+  rows.forEach(function(x){
+   var v=x.c.value.trim().toLowerCase(),ok=v===x.a.toLowerCase();
+   x.r.className="it "+(ok?"ok":"bad");
+   var f=x.r.querySelector(".fix");if(f)f.remove();
+   if(ok)n++;else if(v){} 
+   if(!ok&&v){var m=mk("span","fix","Not quite. Try again!");x.r.appendChild(m)}
+  });
+  sc.textContent=n+" / "+rows.length+(n===rows.length?" 🎉 Great job!":"");
+ };
+ rs.onclick=function(){rows.forEach(function(x){x.c.value="";x.r.className="it";var f=x.r.querySelector(".fix");if(f)f.remove()});sc.textContent=""};
+ bar.appendChild(chk);bar.appendChild(rs);bar.appendChild(sc);s.appendChild(bar);
+ root.appendChild(s);
+});
+var sp=mk("section");
+sp.innerHTML='<h2>Exercise 7. Speaking game: “Touch your…”</h2><p class="hint">Work in pairs. Student A says a body part, Student B touches it. Then switch!</p><p class="say">Touch your <b>nose</b>. 👃<br>Touch your <b>ears</b>. 👂<br>Touch your <b>feet</b>. 🦶</p><p class="say">Ask: “How many fingers do you have?”<br>Answer: “I have ten fingers.” 🖐️🖐️</p>';
+root.appendChild(sp);
+</script>
+</body>
+</html>
